@@ -1,0 +1,293 @@
+:root {
+    --bg-color: var(--apollo-bg-dark);
+    --surface-color: rgba(37, 58, 94, 0.7);
+    --surface-strong: rgba(23, 32, 56, 0.9);
+    --text-color: #eef6f7;
+    --muted-text: rgba(164, 221, 219, 0.72);
+    --border-color: rgba(115, 190, 211, 0.16);
+    --shadow-color: rgba(4, 10, 20, 0.3);
+    --hero-glow: rgba(79, 143, 186, 0.14);
+    --button-text: var(--apollo-text-dark);
+}
+
+body.light-mode {
+    --bg-color: #f6efdf;
+    --surface-color: rgba(255, 251, 244, 0.82);
+    --surface-strong: rgba(255, 250, 241, 0.94);
+    --text-color: #251720;
+    --muted-text: rgba(77, 43, 50, 0.68);
+    --border-color: rgba(122, 72, 65, 0.14);
+    --shadow-color: rgba(75, 44, 29, 0.08);
+    --hero-glow: rgba(208, 147, 90, 0.15);
+    --button-text: var(--apollo-text-light);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+    background:
+        radial-gradient(circle at top left, var(--hero-glow), transparent 32%),
+        linear-gradient(180deg, var(--bg-color), color-mix(in srgb, var(--bg-color) 88%, black));
+    color: var(--text-color);
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    backdrop-filter: blur(18px);
+    background: color-mix(in srgb, var(--bg-color) 82%, transparent);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.site-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    min-width: 0;
+}
+
+.brand {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.25rem;
+    padding: 0 0.9rem;
+    border-radius: 999px;
+    color: var(--muted-text);
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.nav-links a:hover,
+.nav-links a:focus-visible {
+    color: var(--text-color);
+    background: var(--surface-color);
+}
+
+.theme-toggle {
+    flex-shrink: 0;
+    min-width: 5.5rem;
+    min-height: 2.5rem;
+    padding: 0 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    background: var(--surface-strong);
+    color: var(--text-color);
+    font: inherit;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(115, 190, 211, 0.3);
+}
+
+.page-shell {
+    width: min(1120px, calc(100% - 3rem));
+    margin: 0 auto;
+    padding: 7rem 0 5rem;
+}
+
+.hero,
+.intro {
+    max-width: 46rem;
+    text-align: left;
+}
+
+.hero {
+    padding: 1rem 0 2rem;
+}
+
+.eyebrow {
+    margin: 0 0 1rem;
+    color: var(--muted-text);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.06em;
+}
+
+.hero-copy,
+.intro p,
+.project-card p {
+    color: var(--muted-text);
+    line-height: 1.7;
+}
+
+.hero-copy {
+    margin: 1.4rem 0 0;
+    font-size: 1.05rem;
+}
+
+.intro {
+    margin: 0 0 2.5rem;
+    padding: 1.5rem 0 0;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.project-card {
+    --project-accent: var(--apollo-accent-dark);
+    position: relative;
+    overflow: hidden;
+    min-height: 16rem;
+    padding: 1.5rem;
+    border: 1px solid color-mix(in srgb, var(--project-accent) 25%, var(--border-color));
+    border-radius: 1.4rem;
+    background:
+        linear-gradient(180deg, color-mix(in srgb, var(--project-accent) 14%, transparent), transparent 45%),
+        var(--surface-color);
+    box-shadow: 0 22px 60px -40px var(--shadow-color);
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.project-card:hover,
+.project-card:focus-within {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--project-accent) 55%, var(--border-color));
+    box-shadow: 0 28px 70px -42px color-mix(in srgb, var(--project-accent) 20%, var(--shadow-color));
+}
+
+.project-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--project-accent), transparent 75%);
+}
+
+.project-label {
+    margin: 0 0 1rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--project-accent);
+}
+
+.project-card h2 {
+    margin: 0 0 0.85rem;
+    font-size: 1.45rem;
+    line-height: 1.1;
+}
+
+.project-media {
+    margin: 1rem 0 0;
+    border: 1px solid color-mix(in srgb, var(--project-accent) 28%, var(--border-color));
+    border-radius: 1rem;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--project-accent) 10%, var(--surface-strong));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.project-media img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+}
+
+.project-card a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 1rem;
+    color: var(--project-accent);
+    font-weight: 700;
+}
+
+.project-card a::after {
+    content: "->";
+}
+
+.project-bezier {
+    --project-accent: var(--apollo-5);
+}
+
+.project-fourier {
+    --project-accent: var(--apollo-11);
+}
+
+.project-noise {
+    --project-accent: var(--apollo-23);
+}
+
+.project-regressions {
+    --project-accent: var(--apollo-38);
+}
+
+.project-riemann {
+    --project-accent: var(--apollo-35);
+}
+
+@media (max-width: 760px) {
+    .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .site-nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .page-shell {
+        width: min(100% - 1.5rem, 1120px);
+        padding-top: 8.5rem;
+    }
+
+    .hero h1 {
+        font-size: clamp(2.6rem, 15vw, 4rem);
+    }
+}

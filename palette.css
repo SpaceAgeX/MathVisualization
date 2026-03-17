@@ -1,0 +1,67 @@
+/* Apollo Palette Colors */
+/* Source: https://lospec.com/palette-list/apollo */
+
+:root {
+  /* Dark Theme Colors */
+  --apollo-bg-dark: #172038;
+  --apollo-nav-dark: #253a5e;
+  --apollo-section-dark: #1e1e4e;
+  --apollo-accent-dark: #4f8fba;
+  --apollo-link-dark: #73bed3;
+  --apollo-text-dark: #a4dddb;
+
+  /* Light Theme Colors */
+  --apollo-bg-light: #e7d5b3;
+  --apollo-nav-light: #d7b594;
+  --apollo-section-light: #c09473;
+  --apollo-accent-light: #ad7757;
+  --apollo-link-light: #7a4841;
+  --apollo-text-light: #4d2b32;
+
+  /* Additional Colors for Gradient */
+  --apollo-gradient-1: #3c5e8b;
+  --apollo-gradient-2: #a8ca58;
+
+  /* Full Palette for Reference */
+  --apollo-1: #172038;
+  --apollo-2: #253a5e;
+  --apollo-3: #3c5e8b;
+  --apollo-4: #4f8fba;
+  --apollo-5: #73bed3;
+  --apollo-6: #a4dddb;
+  --apollo-7: #19332d;
+  --apollo-8: #25562e;
+  --apollo-9: #468232;
+  --apollo-10: #75a743;
+  --apollo-11: #a8ca58;
+  --apollo-12: #d0da91;
+  --apollo-13: #4d2b32;
+  --apollo-14: #7a4841;
+  --apollo-15: #ad7757;
+  --apollo-16: #c09473;
+  --apollo-17: #d7b594;
+  --apollo-18: #e7d5b3;
+  --apollo-19: #341c27;
+  --apollo-20: #602c2c;
+  --apollo-21: #884b2b;
+  --apollo-22: #be772b;
+  --apollo-23: #de9e41;
+  --apollo-24: #e8c170;
+  --apollo-25: #241527;
+  --apollo-26: #411d31;
+  --apollo-27: #752438;
+  --apollo-28: #a53030;
+  --apollo-29: #cf573c;
+  --apollo-30: #da863e;
+  --apollo-31: #1e1e4e;
+  --apollo-32: #2d1b69;
+  --apollo-33: #422060;
+  --apollo-34: #5b2160;
+  --apollo-35: #723465;
+  --apollo-36: #8c3a60;
+  --apollo-37: #a3435c;
+  --apollo-38: #b15a5a;
+  --apollo-39: #c4754a;
+  --apollo-40: #d0935a;
+  --apollo-41: #e6b34a;
+}

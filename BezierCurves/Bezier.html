@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bezier Curve Whiteboard</title>
+    <link rel="stylesheet" href="../palette.css">
+    <link rel="stylesheet" href="Bezier.css">
+</head>
+<body>
+    <header class="page-header">
+        <a class="back-link" href="../index.html" aria-label="Back to project list">&larr; Back</a>
+        <div class="header-actions">
+            <button id="info-toggle" class="info-toggle" type="button" aria-label="Open Bezier information">Info</button>
+            <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to light mode">Light</button>
+        </div>
+    </header>
+
+    <main class="workspace">
+        <canvas id="bezier-canvas" aria-label="Bezier whiteboard"></canvas>
+        <section class="toolbox" aria-label="Bezier toolbox">
+            <div class="tool-group actions">
+                <button id="select-curve" type="button" class="is-active">Select Curve</button>
+                <button id="create-curve" type="button">Create Curve</button>
+                <button id="delete-curve" type="button">Delete Curve</button>
+                <button id="add-point" type="button">Add Point</button>
+                <button id="delete-point" type="button">Delete Point</button>
+                <button id="close-loop" type="button">Close Loop</button>
+                <button id="reset-all" type="button">Full Reset</button>
+                <button id="animate-toggle" type="button">Animate Off</button>
+            </div>
+            <div class="tool-group status">
+                <div>
+                    <p class="label">Selected</p>
+                    <p id="curve-label">None</p>
+                </div>
+                <div>
+                    <p class="label">Mode</p>
+                    <p id="mode-label">Select curve</p>
+                </div>
+                <div>
+                    <p class="label">Properties</p>
+                    <p id="curve-summary">Create a curve to start drawing.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="info-modal" class="info-modal" hidden>
+        <div id="info-backdrop" class="info-backdrop"></div>
+        <section class="info-panel" role="dialog" aria-modal="true" aria-labelledby="info-title">
+            <div class="info-header">
+                <div>
+                    <p class="label">Guide</p>
+                    <h2 id="info-title">Bezier Whiteboard Notes</h2>
+                </div>
+                <button id="info-close" class="info-close" type="button" aria-label="Close information panel">Close</button>
+            </div>
+            <div class="info-content">
+                <section>
+                    <h3>How To Use It</h3>
+                    <p>Create a curve to place a new Bezier path on the board. Use Select Curve to choose a path and drag its control points. Add Point lets you click anywhere on the board to insert another control point into the selected curve, while Delete Point removes one point at a time from the selected path.</p>
+                    <p>Close Loop turns an open path into a closed one by matching the last point back to the first. Animate shows the construction process, so you can watch the intermediate interpolation lines generate the final curve.</p>
+                </section>
+                <section>
+                    <h3>The Math Behind The Curve</h3>
+                    <p>A Bezier curve is built from control points and repeated linear interpolation. For control points P<sub>0</sub> through P<sub>n</sub>, the curve is a weighted blend of those points over a parameter t from 0 to 1.</p>
+                    <div class="formula" aria-label="Bezier curve equation">
+                        <math display="block" aria-label="B of t equals the sum from i equals zero to n of C of n comma i times quantity one minus t to the n minus i times t to the i times P sub i">
+                            <mrow>
+                                <mi>B</mi>
+                                <mo>(</mo>
+                                <mi>t</mi>
+                                <mo>)</mo>
+                                <mo>=</mo>
+                                <munderover>
+                                    <mo>&Sigma;</mo>
+                                    <mrow>
+                                        <mi>i</mi>
+                                        <mo>=</mo>
+                                        <mn>0</mn>
+                                    </mrow>
+                                    <mi>n</mi>
+                                </munderover>
+                                <mrow>
+                                    <mi>C</mi>
+                                    <mo>(</mo>
+                                    <mi>n</mi>
+                                    <mo>,</mo>
+                                    <mi>i</mi>
+                                    <mo>)</mo>
+                                </mrow>
+                                <msup>
+                                    <mrow>
+                                        <mo>(</mo>
+                                        <mn>1</mn>
+                                        <mo>-</mo>
+                                        <mi>t</mi>
+                                        <mo>)</mo>
+                                    </mrow>
+                                    <mrow>
+                                        <mi>n</mi>
+                                        <mo>-</mo>
+                                        <mi>i</mi>
+                                    </mrow>
+                                </msup>
+                                <msup>
+                                    <mi>t</mi>
+                                    <mi>i</mi>
+                                </msup>
+                                <msub>
+                                    <mi>P</mi>
+                                    <mi>i</mi>
+                                </msub>
+                            </mrow>
+                        </math>
+                    </div>
+                    <p>This editor draws the curve using de Casteljau&apos;s construction: at a chosen t, it interpolates between neighboring control points, then interpolates between those new points again, and repeats until only one point remains. That final point lies on the curve.</p>
+                </section>
+                <section>
+                    <h3>Estimating Curve Length</h3>
+                    <p>The true arc length of a Bezier curve comes from the magnitude of its derivative:</p>
+                    <div class="formula" aria-label="Bezier curve arc length equation">
+                        <math display="block" aria-label="Length equals the integral from zero to one of the magnitude of B prime of t d t">
+                            <mrow>
+                                <mi>Length</mi>
+                                <mo>=</mo>
+                                <munderover>
+                                    <mo>&int;</mo>
+                                    <mn>0</mn>
+                                    <mn>1</mn>
+                                </munderover>
+                                <mrow>
+                                    <mo>|</mo>
+                                    <msup>
+                                        <mi>B</mi>
+                                        <mo>&prime;</mo>
+                                    </msup>
+                                    <mo>(</mo>
+                                    <mi>t</mi>
+                                    <mo>)</mo>
+                                    <mo>|</mo>
+                                </mrow>
+                                <mi>d</mi>
+                                <mi>t</mi>
+                            </mrow>
+                        </math>
+                    </div>
+                    <p>For most Bezier curves, that integral does not simplify nicely, so interactive tools usually estimate the length numerically. A common approximation is to sample many nearby points along the curve and add the distances between them. The guide length shown in the toolbox is the control polygon length, which is the sum of the straight segments between control points, not the exact arc length of the curve itself.</p>
+                </section>
+            </div>
+        </section>
+    </div>
+
+    <script src="Bezier.js"></script>
+</body>
+</html>
