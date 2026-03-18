@@ -117,7 +117,7 @@ a {
 
 .main-panel {
     display: grid;
-    grid-template-columns: minmax(240px, 280px) minmax(0, 1fr) minmax(280px, 340px);
+    grid-template-columns: minmax(210px, 245px) minmax(0, 1fr) minmax(360px, 450px);
     gap: 1rem;
     align-items: stretch;
 }
@@ -186,6 +186,11 @@ a {
     text-overflow: ellipsis;
 }
 
+.integral-stack {
+    display: grid;
+    gap: 0.55rem;
+}
+
 .formula-display sup {
     position: relative;
     top: -0.25em;
@@ -205,6 +210,71 @@ a {
     gap: 0.12rem;
     justify-content: flex-start;
     font-size: 1rem;
+}
+
+.integral-formula {
+    min-height: 3.2rem;
+    align-items: flex-start;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    text-overflow: clip;
+    line-height: 1.45;
+    font-size: 0.96rem;
+}
+
+.integral-formula sup,
+.integral-formula sub {
+    position: static;
+    font-size: 0.72em;
+    line-height: 1;
+}
+
+.integral-formula sup {
+    vertical-align: super;
+}
+
+.integral-formula sub {
+    vertical-align: sub;
+}
+
+.integral-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-right: 0.12rem;
+}
+
+.integral-symbol {
+    font-size: 1.55rem;
+    line-height: 0.9;
+}
+
+.integral-limits {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.integral-limits sup,
+.integral-limits sub {
+    position: static;
+    font-size: 0.62em;
+    line-height: 1;
+}
+
+.integral-limits sup {
+    transform: translate(0.6rem, -0.45rem);
+}
+
+.integral-limits sub {
+    transform: translate(0.6rem, 0.5rem);
 }
 
 .sigma-wrap {
@@ -237,11 +307,11 @@ a {
 }
 
 .sigma-limits sup {
-    transform: translateY(-0.55rem);
+    transform: translateY(-0.34rem);
 }
 
 .sigma-limits sub {
-    transform: translateY(0.55rem);
+    transform: translateY(0.34rem);
 }
 
 .riemann-equals {

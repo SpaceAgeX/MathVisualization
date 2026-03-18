@@ -4,6 +4,9 @@ const context = canvas.getContext("2d");
 const functionSelect = document.getElementById("function-select");
 const functionFormula = document.getElementById("function-formula");
 const riemannResultFormula = document.getElementById("riemann-result-formula");
+const integralAntiderivativeFormula = document.getElementById("integral-antiderivative-formula");
+const integralWorkFormula = document.getElementById("integral-work-formula");
+const integralResultFormula = document.getElementById("integral-result-formula");
 const transformControls = document.getElementById("transform-controls");
 const zoomInButton = document.getElementById("zoom-in");
 const zoomOutButton = document.getElementById("zoom-out");
@@ -550,17 +553,26 @@ function formatResultNumber(value) {
     return Number.isInteger(rounded) ? String(rounded) : String(rounded);
 }
 
+function formatIntegralResultNumber(value) {
+    const rounded = Math.round(value * 100) / 100;
+    return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2);
+}
+
 function isZero(value) {
     return Math.abs(value) < 0.0001;
 }
 
 function buildPolynomialFormula(terms) {
+    return buildNamedPolynomialFormula("f(x)", terms);
+}
+
+function buildNamedPolynomialFormula(label, terms) {
     const visibleTerms = terms.filter(function (term) {
         return !isZero(term.coefficient);
     });
 
     if (visibleTerms.length === 0) {
-        return "f(x) = 0";
+        return `${label} = 0`;
     }
 
     const formattedTerms = visibleTerms.map(function (term, index) {
@@ -573,11 +585,15 @@ function buildPolynomialFormula(terms) {
         return `${sign}${coefficientText}${term.body}`;
     });
 
-    return `f(x) = ${formattedTerms.join("")}`;
+    return `${label} = ${formattedTerms.join("")}`;
 }
 
 function buildConstantFormula(value) {
-    return `f(x) = ${formatFormulaNumber(value)}`;
+    return buildNamedConstantFormula("f(x)", value);
+}
+
+function buildNamedConstantFormula(label, value) {
+    return `${label} = ${formatFormulaNumber(value)}`;
 }
 
 function clamp(value, min, max) {
@@ -671,6 +687,161 @@ function updateFunctionFormula() {
     functionFormula.innerHTML = getFunctionFormulaMarkup();
 }
 
+function getIntegralNotationMarkup() {
+    return `<span class="integral-wrap"><span class="integral-symbol">&int;</span><span class="integral-limits"><sup>${formatFormulaNumber(state.riemann.upperBound)}</sup><sub>${formatFormulaNumber(state.riemann.lowerBound)}</sub></span></span> f(x) dx`;
+}
+
+function getAntiderivativeDefinition() {
+    const params = state.params;
+
+    switch (state.currentFunction) {
+        case "linear":
+            return {
+                formula: buildNamedPolynomialFormula("F(x)", [
+                    { coefficient: params.a / 2, body: "x<sup>2</sup>", hideOne: true },
+                    { coefficient: params.b, body: "x", hideOne: true }
+                ]),
+                evaluate(x) {
+                    return (params.a / 2) * x * x + params.b * x;
+                }
+            };
+        case "quadratic":
+            return {
+                formula: buildNamedPolynomialFormula("F(x)", [
+                    { coefficient: params.a / 3, body: "x<sup>3</sup>", hideOne: true },
+                    { coefficient: params.b / 2, body: "x<sup>2</sup>", hideOne: true },
+                    { coefficient: params.c, body: "x", hideOne: true }
+                ]),
+                evaluate(x) {
+                    return (params.a / 3) * x * x * x + (params.b / 2) * x * x + params.c * x;
+                }
+            };
+        case "cubic":
+            return {
+                formula: buildNamedPolynomialFormula("F(x)", [
+                    { coefficient: params.a / 4, body: "x<sup>4</sup>", hideOne: true },
+                    { coefficient: params.b / 3, body: "x<sup>3</sup>", hideOne: true },
+                    { coefficient: params.c / 2, body: "x<sup>2</sup>", hideOne: true },
+                    { coefficient: params.d, body: "x", hideOne: true }
+                ]),
+                evaluate(x) {
+                    return (
+                        (params.a / 4) * Math.pow(x, 4) +
+                        (params.b / 3) * Math.pow(x, 3) +
+                        (params.c / 2) * x * x +
+                        params.d * x
+                    );
+                }
+            };
+        case "quartic":
+            return {
+                formula: buildNamedPolynomialFormula("F(x)", [
+                    { coefficient: params.a / 5, body: "x<sup>5</sup>", hideOne: true },
+                    { coefficient: params.b / 4, body: "x<sup>4</sup>", hideOne: true },
+                    { coefficient: params.c / 3, body: "x<sup>3</sup>", hideOne: true },
+                    { coefficient: params.d / 2, body: "x<sup>2</sup>", hideOne: true },
+                    { coefficient: params.e, body: "x", hideOne: true }
+                ]),
+                evaluate(x) {
+                    return (
+                        (params.a / 5) * Math.pow(x, 5) +
+                        (params.b / 4) * Math.pow(x, 4) +
+                        (params.c / 3) * Math.pow(x, 3) +
+                        (params.d / 2) * x * x +
+                        params.e * x
+                    );
+                }
+            };
+        case "sine":
+            if (isZero(params.b)) {
+                const constantValue = params.a * Math.sin(params.c) + params.d;
+                return {
+                    formula: buildNamedPolynomialFormula("F(x)", [
+                        { coefficient: constantValue, body: "x", hideOne: true }
+                    ]),
+                    evaluate(x) {
+                        return constantValue * x;
+                    }
+                };
+            }
+
+            return {
+                formula: buildNamedPolynomialFormula("F(x)", [
+                    {
+                        coefficient: -params.a / params.b,
+                        body: `cos(${formatFormulaNumber(params.b)}x ${params.c < 0 ? "-" : "+"} ${formatFormulaNumber(Math.abs(params.c))})`,
+                        hideOne: true
+                    },
+                    { coefficient: params.d, body: "x", hideOne: true }
+                ]),
+                evaluate(x) {
+                    return (-params.a / params.b) * Math.cos(params.b * x + params.c) + params.d * x;
+                }
+            };
+        case "exponential":
+            if (params.b <= 0) {
+                return {
+                    formula: "F(x) is undefined for this base",
+                    evaluate() {
+                        return Number.NaN;
+                    }
+                };
+            }
+
+            if (Math.abs(params.b - 1) < 0.0001) {
+                return {
+                    formula: buildNamedPolynomialFormula("F(x)", [
+                        { coefficient: params.a + params.c, body: "x", hideOne: true }
+                    ]),
+                    evaluate(x) {
+                        return (params.a + params.c) * x;
+                    }
+                };
+            }
+
+            return {
+                formula: buildNamedPolynomialFormula("F(x)", [
+                    {
+                        coefficient: params.a / Math.log(params.b),
+                        body: `${formatFormulaNumber(params.b)}<sup>x</sup>`,
+                        hideOne: true
+                    },
+                    { coefficient: params.c, body: "x", hideOne: true }
+                ]),
+                evaluate(x) {
+                    return (params.a * Math.pow(params.b, x)) / Math.log(params.b) + params.c * x;
+                }
+            };
+        default:
+            return {
+                formula: "F(x) = x<sup>2</sup>/2",
+                evaluate(x) {
+                    return (x * x) / 2;
+                }
+            };
+    }
+}
+
+function updateIntegralResult() {
+    const antiderivative = getAntiderivativeDefinition();
+    const lowerValue = antiderivative.evaluate(state.riemann.lowerBound);
+    const upperValue = antiderivative.evaluate(state.riemann.upperBound);
+    const definiteIntegral = upperValue - lowerValue;
+    const integralMarkup = getIntegralNotationMarkup();
+
+    integralAntiderivativeFormula.innerHTML = `${antiderivative.formula} + C`;
+
+    if (!Number.isFinite(lowerValue) || !Number.isFinite(upperValue) || !Number.isFinite(definiteIntegral)) {
+        integralWorkFormula.innerHTML = `F(${formatFormulaNumber(state.riemann.upperBound)}) - F(${formatFormulaNumber(state.riemann.lowerBound)}) = ${integralMarkup}`;
+        integralResultFormula.innerHTML = `${integralMarkup} = Undefined`;
+        return;
+    }
+
+    integralWorkFormula.innerHTML =
+        `F(${formatFormulaNumber(state.riemann.upperBound)}) - F(${formatFormulaNumber(state.riemann.lowerBound)}) = ${integralMarkup} = ${formatIntegralResultNumber(upperValue)} - (${formatIntegralResultNumber(lowerValue)})`;
+    integralResultFormula.innerHTML = `${integralMarkup} = ${formatIntegralResultNumber(definiteIntegral)}`;
+}
+
 function updateRiemannResult() {
     const sum = calculateRiemannSum(
         state.riemann.type,
@@ -683,6 +854,7 @@ function updateRiemannResult() {
 
     const formattedSum = Number.isFinite(sum) ? formatResultNumber(sum) : "Undefined";
     riemannResultFormula.innerHTML = `<span class="sigma-wrap"><span class="sigma-term">&Sigma;</span><span class="sigma-limits"><sup>${state.riemann.rectangles}</sup><sub>${getRiemannIndexMarkup()}</sub></span></span>f(x<sub>i</sub>)&Delta;x <span class="riemann-equals">= ${formattedSum}</span>`;
+    updateIntegralResult();
 }
 
 function buildTransformField(field) {
