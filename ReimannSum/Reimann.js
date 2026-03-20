@@ -126,8 +126,8 @@ const state = {
     view: {
         xMin: -5,
         xMax: 5,
-        yMin: -10,
-        yMax: 10
+        yMin: -15,
+        yMax: 15
     }
 };
 
@@ -150,8 +150,8 @@ function applyZoomLevel() {
     const halfRange = ZOOM_LEVELS[state.zoomIndex];
     state.view.xMin = -halfRange;
     state.view.xMax = halfRange;
-    state.view.yMin = -halfRange * 2;
-    state.view.yMax = halfRange * 2;
+    state.view.yMin = -halfRange * 3;
+    state.view.yMax = halfRange * 3;
     state.riemann.lowerBound = clamp(state.riemann.lowerBound, state.view.xMin, state.view.xMax);
     state.riemann.upperBound = clamp(state.riemann.upperBound, state.view.xMin, state.view.xMax);
     if (state.riemann.lowerBound >= state.riemann.upperBound) {
@@ -558,6 +558,24 @@ function formatIntegralResultNumber(value) {
     return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(2);
 }
 
+function wrapDisplayMath(expression) {
+    return `\\[ ${expression} \\]`;
+}
+
+function typesetMath(elements) {
+    if (!window.MathJax || !window.MathJax.typesetPromise) {
+        return;
+    }
+
+    if (window.MathJax.typesetClear) {
+        window.MathJax.typesetClear(elements);
+    }
+
+    window.MathJax.typesetPromise(elements).catch(function (error) {
+        console.error("MathJax typeset failed:", error);
+    });
+}
+
 function isZero(value) {
     return Math.abs(value) < 0.0001;
 }
@@ -633,22 +651,22 @@ function getFunctionFormulaMarkup() {
             ]);
         case "quadratic":
             return buildPolynomialFormula([
-                { coefficient: params.a, body: "x<sup>2</sup>", hideOne: true },
+                { coefficient: params.a, body: "x^{2}", hideOne: true },
                 { coefficient: params.b, body: "x", hideOne: true },
                 { coefficient: params.c, body: "", hideOne: false }
             ]);
         case "cubic":
             return buildPolynomialFormula([
-                { coefficient: params.a, body: "x<sup>3</sup>", hideOne: true },
-                { coefficient: params.b, body: "x<sup>2</sup>", hideOne: true },
+                { coefficient: params.a, body: "x^{3}", hideOne: true },
+                { coefficient: params.b, body: "x^{2}", hideOne: true },
                 { coefficient: params.c, body: "x", hideOne: true },
                 { coefficient: params.d, body: "", hideOne: false }
             ]);
         case "quartic":
             return buildPolynomialFormula([
-                { coefficient: params.a, body: "x<sup>4</sup>", hideOne: true },
-                { coefficient: params.b, body: "x<sup>3</sup>", hideOne: true },
-                { coefficient: params.c, body: "x<sup>2</sup>", hideOne: true },
+                { coefficient: params.a, body: "x^{4}", hideOne: true },
+                { coefficient: params.b, body: "x^{3}", hideOne: true },
+                { coefficient: params.c, body: "x^{2}", hideOne: true },
                 { coefficient: params.d, body: "x", hideOne: true },
                 { coefficient: params.e, body: "", hideOne: false }
             ]);
@@ -660,7 +678,7 @@ function getFunctionFormulaMarkup() {
             return buildPolynomialFormula([
                 {
                     coefficient: params.a,
-                    body: `sin(${formatFormulaNumber(params.b)}x ${params.c < 0 ? "-" : "+"} ${formatFormulaNumber(Math.abs(params.c))})`,
+                    body: `\\sin(${formatFormulaNumber(params.b)}x ${params.c < 0 ? "-" : "+"} ${formatFormulaNumber(Math.abs(params.c))})`,
                     hideOne: true
                 },
                 { coefficient: params.d, body: "", hideOne: false }
@@ -673,7 +691,7 @@ function getFunctionFormulaMarkup() {
             return buildPolynomialFormula([
                 {
                     coefficient: params.a,
-                    body: `(${formatFormulaNumber(params.b)}<sup>x</sup>)`,
+                    body: `\\left(${formatFormulaNumber(params.b)}\\right)^{x}`,
                     hideOne: true
                 },
                 { coefficient: params.c, body: "", hideOne: false }
@@ -684,11 +702,12 @@ function getFunctionFormulaMarkup() {
 }
 
 function updateFunctionFormula() {
-    functionFormula.innerHTML = getFunctionFormulaMarkup();
+    functionFormula.innerHTML = wrapDisplayMath(getFunctionFormulaMarkup());
+    typesetMath([functionFormula]);
 }
 
 function getIntegralNotationMarkup() {
-    return `<span class="integral-wrap"><span class="integral-symbol">&int;</span><span class="integral-limits"><sup>${formatFormulaNumber(state.riemann.upperBound)}</sup><sub>${formatFormulaNumber(state.riemann.lowerBound)}</sub></span></span> f(x) dx`;
+    return `\\int_{${formatFormulaNumber(state.riemann.lowerBound)}}^{${formatFormulaNumber(state.riemann.upperBound)}} f(x)\\,dx`;
 }
 
 function getAntiderivativeDefinition() {
@@ -698,7 +717,7 @@ function getAntiderivativeDefinition() {
         case "linear":
             return {
                 formula: buildNamedPolynomialFormula("F(x)", [
-                    { coefficient: params.a / 2, body: "x<sup>2</sup>", hideOne: true },
+                    { coefficient: params.a / 2, body: "x^{2}", hideOne: true },
                     { coefficient: params.b, body: "x", hideOne: true }
                 ]),
                 evaluate(x) {
@@ -708,8 +727,8 @@ function getAntiderivativeDefinition() {
         case "quadratic":
             return {
                 formula: buildNamedPolynomialFormula("F(x)", [
-                    { coefficient: params.a / 3, body: "x<sup>3</sup>", hideOne: true },
-                    { coefficient: params.b / 2, body: "x<sup>2</sup>", hideOne: true },
+                    { coefficient: params.a / 3, body: "x^{3}", hideOne: true },
+                    { coefficient: params.b / 2, body: "x^{2}", hideOne: true },
                     { coefficient: params.c, body: "x", hideOne: true }
                 ]),
                 evaluate(x) {
@@ -719,9 +738,9 @@ function getAntiderivativeDefinition() {
         case "cubic":
             return {
                 formula: buildNamedPolynomialFormula("F(x)", [
-                    { coefficient: params.a / 4, body: "x<sup>4</sup>", hideOne: true },
-                    { coefficient: params.b / 3, body: "x<sup>3</sup>", hideOne: true },
-                    { coefficient: params.c / 2, body: "x<sup>2</sup>", hideOne: true },
+                    { coefficient: params.a / 4, body: "x^{4}", hideOne: true },
+                    { coefficient: params.b / 3, body: "x^{3}", hideOne: true },
+                    { coefficient: params.c / 2, body: "x^{2}", hideOne: true },
                     { coefficient: params.d, body: "x", hideOne: true }
                 ]),
                 evaluate(x) {
@@ -736,10 +755,10 @@ function getAntiderivativeDefinition() {
         case "quartic":
             return {
                 formula: buildNamedPolynomialFormula("F(x)", [
-                    { coefficient: params.a / 5, body: "x<sup>5</sup>", hideOne: true },
-                    { coefficient: params.b / 4, body: "x<sup>4</sup>", hideOne: true },
-                    { coefficient: params.c / 3, body: "x<sup>3</sup>", hideOne: true },
-                    { coefficient: params.d / 2, body: "x<sup>2</sup>", hideOne: true },
+                    { coefficient: params.a / 5, body: "x^{5}", hideOne: true },
+                    { coefficient: params.b / 4, body: "x^{4}", hideOne: true },
+                    { coefficient: params.c / 3, body: "x^{3}", hideOne: true },
+                    { coefficient: params.d / 2, body: "x^{2}", hideOne: true },
                     { coefficient: params.e, body: "x", hideOne: true }
                 ]),
                 evaluate(x) {
@@ -769,7 +788,7 @@ function getAntiderivativeDefinition() {
                 formula: buildNamedPolynomialFormula("F(x)", [
                     {
                         coefficient: -params.a / params.b,
-                        body: `cos(${formatFormulaNumber(params.b)}x ${params.c < 0 ? "-" : "+"} ${formatFormulaNumber(Math.abs(params.c))})`,
+                        body: `\\cos(${formatFormulaNumber(params.b)}x ${params.c < 0 ? "-" : "+"} ${formatFormulaNumber(Math.abs(params.c))})`,
                         hideOne: true
                     },
                     { coefficient: params.d, body: "x", hideOne: true }
@@ -781,7 +800,7 @@ function getAntiderivativeDefinition() {
         case "exponential":
             if (params.b <= 0) {
                 return {
-                    formula: "F(x) is undefined for this base",
+                    formula: "F(x) = \\mathrm{undefined\\ for\\ this\\ base}",
                     evaluate() {
                         return Number.NaN;
                     }
@@ -803,7 +822,7 @@ function getAntiderivativeDefinition() {
                 formula: buildNamedPolynomialFormula("F(x)", [
                     {
                         coefficient: params.a / Math.log(params.b),
-                        body: `${formatFormulaNumber(params.b)}<sup>x</sup>`,
+                        body: `${formatFormulaNumber(params.b)}^{x}`,
                         hideOne: true
                     },
                     { coefficient: params.c, body: "x", hideOne: true }
@@ -814,7 +833,7 @@ function getAntiderivativeDefinition() {
             };
         default:
             return {
-                formula: "F(x) = x<sup>2</sup>/2",
+                formula: "F(x) = \\frac{x^{2}}{2}",
                 evaluate(x) {
                     return (x * x) / 2;
                 }
@@ -829,17 +848,23 @@ function updateIntegralResult() {
     const definiteIntegral = upperValue - lowerValue;
     const integralMarkup = getIntegralNotationMarkup();
 
-    integralAntiderivativeFormula.innerHTML = `${antiderivative.formula} + C`;
+    const antiderivativeExpression = antiderivative.formula.includes("\\mathrm{undefined")
+        ? antiderivative.formula
+        : `${antiderivative.formula} + C`;
+
+    integralAntiderivativeFormula.innerHTML = wrapDisplayMath(antiderivativeExpression);
 
     if (!Number.isFinite(lowerValue) || !Number.isFinite(upperValue) || !Number.isFinite(definiteIntegral)) {
-        integralWorkFormula.innerHTML = `F(${formatFormulaNumber(state.riemann.upperBound)}) - F(${formatFormulaNumber(state.riemann.lowerBound)}) = ${integralMarkup}`;
-        integralResultFormula.innerHTML = `${integralMarkup} = Undefined`;
+        integralWorkFormula.innerHTML = wrapDisplayMath(`F(${formatFormulaNumber(state.riemann.upperBound)}) - F(${formatFormulaNumber(state.riemann.lowerBound)}) = ${integralMarkup}`);
+        integralResultFormula.innerHTML = wrapDisplayMath(`${integralMarkup} = \\mathrm{Undefined}`);
+        typesetMath([integralAntiderivativeFormula, integralWorkFormula, integralResultFormula]);
         return;
     }
 
     integralWorkFormula.innerHTML =
-        `F(${formatFormulaNumber(state.riemann.upperBound)}) - F(${formatFormulaNumber(state.riemann.lowerBound)}) = ${integralMarkup} = ${formatIntegralResultNumber(upperValue)} - (${formatIntegralResultNumber(lowerValue)})`;
-    integralResultFormula.innerHTML = `${integralMarkup} = ${formatIntegralResultNumber(definiteIntegral)}`;
+        wrapDisplayMath(`F(${formatFormulaNumber(state.riemann.upperBound)}) - F(${formatFormulaNumber(state.riemann.lowerBound)}) = ${integralMarkup} = ${formatIntegralResultNumber(upperValue)} - (${formatIntegralResultNumber(lowerValue)})`);
+    integralResultFormula.innerHTML = wrapDisplayMath(`${integralMarkup} = ${formatIntegralResultNumber(definiteIntegral)}`);
+    typesetMath([integralAntiderivativeFormula, integralWorkFormula, integralResultFormula]);
 }
 
 function updateRiemannResult() {
@@ -853,7 +878,11 @@ function updateRiemannResult() {
     );
 
     const formattedSum = Number.isFinite(sum) ? formatResultNumber(sum) : "Undefined";
-    riemannResultFormula.innerHTML = `<span class="sigma-wrap"><span class="sigma-term">&Sigma;</span><span class="sigma-limits"><sup>${state.riemann.rectangles}</sup><sub>${getRiemannIndexMarkup()}</sub></span></span>f(x<sub>i</sub>)&Delta;x <span class="riemann-equals">= ${formattedSum}</span>`;
+    const upperIndex = state.riemann.type === "right"
+        ? state.riemann.rectangles
+        : state.riemann.rectangles - 1;
+    riemannResultFormula.innerHTML = wrapDisplayMath(`\\sum_{${getRiemannIndexMarkup()}}^{${upperIndex}} f(x_i)\\Delta x = ${formattedSum}`);
+    typesetMath([riemannResultFormula]);
     updateIntegralResult();
 }
 

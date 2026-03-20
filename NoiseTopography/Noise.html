@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noise Topography</title>
     <link rel="stylesheet" href="../palette.css">
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
     <style>
         :root {
             --bg-color: #172038;
@@ -132,6 +141,14 @@
             color: var(--muted-text);
             line-height: 1.6;
         }
+        .math-block {
+            margin-top: 1rem;
+            padding: 0.9rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            background: var(--surface-strong);
+            overflow-x: auto;
+        }
     </style>
 </head>
 <body>
@@ -148,7 +165,7 @@
             <div class="coming-copy">
                 <p class="eyebrow">Noise Topography</p>
                 <h1>Comming Soon</h1>
-                <p class="subtitle">This page will visualize smooth random noise as terrain-like topographic surfaces.</p>
+                <p class="subtitle">This page will visualize smooth random noise as terrain-like topographic surfaces using a height field \(z = h(x, y)\).</p>
             </div>
         </section>
     </main>
@@ -165,6 +182,11 @@
             </div>
             <div class="info-content">
                 <p>This project will briefly show how smooth pseudo-random noise can generate terrain-like height maps and contour patterns.</p>
+                <div class="math-block">
+                    \[
+                        z = h(x, y)
+                    \]
+                </div>
             </div>
         </section>
     </div>

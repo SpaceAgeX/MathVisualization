@@ -274,17 +274,11 @@ a {
     border-radius: 0.9rem;
     background: var(--surface-strong);
     color: var(--text-color);
-    line-height: 1.2;
+    line-height: 1.6;
 }
 
-.formula math {
-    display: block;
-    min-width: max-content;
-    font-size: 1.12rem;
-}
-
-.formula math[display="block"] {
-    margin: 0;
+.formula .MathJax {
+    font-size: 1.05rem !important;
 }
 
 @media (max-width: 760px) {

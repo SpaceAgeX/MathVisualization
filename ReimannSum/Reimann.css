@@ -176,14 +176,14 @@ a {
     min-height: 2.6rem;
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 0 0.9rem;
     border: 1px solid var(--border-color);
     border-radius: 0.9rem;
     background: var(--surface-strong);
     color: var(--text-color);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .integral-stack {
@@ -191,131 +191,17 @@ a {
     gap: 0.55rem;
 }
 
-.formula-display sup {
-    position: relative;
-    top: -0.25em;
-    font-size: 0.62em;
-    line-height: 0;
-}
-
-.formula-display sub {
-    position: relative;
-    top: 0.2em;
-    font-size: 0.62em;
-    line-height: 0;
-}
-
 .riemann-formula {
     min-height: 4.2rem;
-    gap: 0.12rem;
-    justify-content: flex-start;
     font-size: 1rem;
 }
 
 .integral-formula {
     min-height: 3.2rem;
-    align-items: flex-start;
     padding-top: 0.7rem;
     padding-bottom: 0.7rem;
-    white-space: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-    text-overflow: clip;
     line-height: 1.45;
     font-size: 0.96rem;
-}
-
-.integral-formula sup,
-.integral-formula sub {
-    position: static;
-    font-size: 0.72em;
-    line-height: 1;
-}
-
-.integral-formula sup {
-    vertical-align: super;
-}
-
-.integral-formula sub {
-    vertical-align: sub;
-}
-
-.integral-wrap {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    margin-right: 0.12rem;
-}
-
-.integral-symbol {
-    font-size: 1.55rem;
-    line-height: 0.9;
-}
-
-.integral-limits {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    pointer-events: none;
-}
-
-.integral-limits sup,
-.integral-limits sub {
-    position: static;
-    font-size: 0.62em;
-    line-height: 1;
-}
-
-.integral-limits sup {
-    transform: translate(0.6rem, -0.45rem);
-}
-
-.integral-limits sub {
-    transform: translate(0.6rem, 0.5rem);
-}
-
-.sigma-wrap {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    margin-right: 0.3rem;
-}
-
-.sigma-term {
-    font-size: 1.85rem;
-    line-height: 0.9;
-}
-
-.sigma-limits {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    pointer-events: none;
-}
-
-.sigma-limits sup,
-.sigma-limits sub {
-    position: static;
-    font-size: 0.62em;
-    line-height: 1;
-}
-
-.sigma-limits sup {
-    transform: translateY(-0.34rem);
-}
-
-.sigma-limits sub {
-    transform: translateY(0.34rem);
-}
-
-.riemann-equals {
-    margin-left: 0.35rem;
 }
 
 .variables-panel {
@@ -327,10 +213,20 @@ a {
     min-height: 0;
 }
 
+.function-variables-panel {
+    min-height: 23.5rem;
+}
+
 .transform-controls {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.7rem;
+    align-content: start;
+    min-height: 16.5rem;
+}
+
+.formula-display .MathJax {
+    font-size: 1em !important;
 }
 
 .transform-field {
@@ -409,12 +305,22 @@ a {
 }
 
 .canvas-panel {
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.85rem;
     border: 1px solid var(--border-color);
     border-radius: 1.5rem;
     background: var(--surface-color);
     box-shadow: 0 24px 48px -34px var(--shadow-color);
+}
+
+.canvas-frame {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .canvas-zoom-controls {
@@ -456,9 +362,9 @@ a {
 #riemann-canvas {
     display: block;
     width: 100%;
-    height: 72vh;
-    max-height: 760px;
-    min-height: 520px;
+    height: 78vh;
+    max-height: 840px;
+    min-height: 600px;
     border-radius: 1rem;
     background: rgba(255, 255, 255, 0.02);
 }
@@ -550,11 +456,12 @@ a {
 
     .transform-controls {
         grid-template-columns: 1fr;
+        min-height: 0;
     }
 
     #riemann-canvas {
-        height: 420px;
-        min-height: 420px;
+        height: 460px;
+        min-height: 460px;
     }
 
     .info-header {

@@ -6,6 +6,15 @@
     <title>Riemann Sum Demo</title>
     <link rel="stylesheet" href="../palette.css">
     <link rel="stylesheet" href="Reimann.css">
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 <body>
     <header class="page-header">
@@ -20,7 +29,7 @@
         <div class="demo-shell">
             <section class="main-panel">
                 <aside class="sidebar" aria-label="Variable controls">
-                    <div class="variables-panel compact-panel">
+                    <div class="variables-panel compact-panel function-variables-panel">
                         <p class="label">Function Variables</p>
                         <div class="control-block">
                             <label class="slider-label" for="function-select">Parent</label>
@@ -70,33 +79,33 @@
                 </aside>
 
                 <section class="canvas-panel">
-                    <div class="canvas-zoom-controls">
-                        <button id="zoom-in" class="canvas-zoom-button" type="button" aria-label="Zoom in on graph">+</button>
-                        <button id="zoom-out" class="canvas-zoom-button" type="button" aria-label="Zoom out on graph">-</button>
+                    <div class="canvas-frame">
+                        <div class="canvas-zoom-controls">
+                            <button id="zoom-in" class="canvas-zoom-button" type="button" aria-label="Zoom in on graph">+</button>
+                            <button id="zoom-out" class="canvas-zoom-button" type="button" aria-label="Zoom out on graph">-</button>
+                        </div>
+                        <canvas id="riemann-canvas" aria-label="Riemann sum graph"></canvas>
                     </div>
-                    <canvas id="riemann-canvas" aria-label="Riemann sum graph"></canvas>
                 </section>
 
                 <aside class="controls" aria-label="Function controls">
                     <div class="control-block">
                         <p class="label">Function</p>
-                        <div id="function-formula" class="formula-display">y = 1.0x + 0.0</div>
+                        <div id="function-formula" class="formula-display">\[ f(x) = x \]</div>
                     </div>
                     <div class="control-block">
                         <p class="label">Riemann Sum Result</p>
-                        <div id="riemann-result-formula" class="formula-display riemann-formula">
-                            <span class="sigma-wrap"><span class="sigma-term">&Sigma;</span><span class="sigma-limits"><sup>n</sup><sub>i = 0</sub></span></span>f(x<sub>i</sub>)&Delta;x = 0
-                        </div>
+                        <div id="riemann-result-formula" class="formula-display riemann-formula">\[ \sum_{i=0}^{n} f(x_i)\Delta x = 0 \]</div>
                     </div>
                     <div class="control-block">
                         <p class="label">Result as # Rectangles -> Infinity (TRUE AREA)</p>
                         <div class="integral-stack">
                             <p class="integral-convergence-note">Anti-Derivative of f(x)</p>
-                            <div id="integral-antiderivative-formula" class="formula-display integral-formula">F(x) = x<sup>2</sup>/2</div>
+                            <div id="integral-antiderivative-formula" class="formula-display integral-formula">\[ F(x) = \frac{x^2}{2} + C \]</div>
                             <p class="integral-convergence-note">Fundamental Theorem of Calculus</p>
-                            <div id="integral-work-formula" class="formula-display integral-formula">F(upper) - F(lower) = <span class="integral-wrap"><span class="integral-symbol">&int;</span><span class="integral-limits"><sup>upper</sup><sub>lower</sub></span></span> f(x) dx</div>
+                            <div id="integral-work-formula" class="formula-display integral-formula">\[ F(b) - F(a) = \int_{a}^{b} f(x)\,dx \]</div>
                             <p class="integral-convergence-note">The Area Under the Curve</p>
-                            <div id="integral-result-formula" class="formula-display integral-formula"><span class="integral-wrap"><span class="integral-symbol">&int;</span><span class="integral-limits"><sup>upper</sup><sub>lower</sub></span></span> f(x) dx = 0</div>
+                            <div id="integral-result-formula" class="formula-display integral-formula">\[ \int_{a}^{b} f(x)\,dx = 0 \]</div>
                         </div>
                     </div>
                 </aside>
@@ -127,6 +136,7 @@
                     <p>
                         A Riemann sum approximates the area under a curve by splitting an interval into smaller pieces and adding the areas of rectangles. As the partitions get smaller, the approximation gets closer to the definite integral.
                     </p>
+                    <p>\[ \sum_{i=0}^{n-1} f(x_i)\Delta x \to \int_{a}^{b} f(x)\,dx \]</p>
                 </section>
             </div>
         </section>

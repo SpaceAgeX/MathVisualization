@@ -259,6 +259,10 @@ a {
     --project-accent: var(--apollo-11);
 }
 
+.project-geodesic {
+    --project-accent: var(--apollo-17);
+}
+
 .project-noise {
     --project-accent: var(--apollo-23);
 }
