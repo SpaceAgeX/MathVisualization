@@ -5,134 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regressions</title>
     <link rel="stylesheet" href="../palette.css">
-    <style>
-        :root {
-            --bg-color: #172038;
-            --surface-color: rgba(23, 32, 56, 0.84);
-            --surface-strong: rgba(37, 58, 94, 0.88);
-            --text-color: #eef6f7;
-            --muted-text: rgba(164, 221, 219, 0.72);
-            --border-color: rgba(115, 190, 211, 0.18);
-            --shadow-color: rgba(3, 9, 18, 0.34);
+    <link rel="stylesheet" href="Regressions.css">
+    <script>
+        window.MathJax = {
+        tex: {
+            inlineMath: [['\\(', '\\)']],
+            displayMath: [['\\[', '\\]']]
         }
-
-        body.light-mode {
-            --bg-color: #f7f0e4;
-            --surface-color: rgba(255, 251, 245, 0.88);
-            --surface-strong: rgba(246, 238, 224, 0.92);
-            --text-color: #2f1e21;
-            --muted-text: rgba(77, 43, 50, 0.7);
-            --border-color: rgba(122, 72, 65, 0.18);
-            --shadow-color: rgba(75, 44, 29, 0.1);
-        }
-
-        * { box-sizing: border-box; }
-        html, body { margin: 0; min-height: 100%; }
-        body {
-            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-            background: radial-gradient(circle at top left, rgba(115, 190, 211, 0.12), transparent 28%), var(--bg-color);
-            color: var(--text-color);
-        }
-        body.modal-open { overflow: hidden; }
-        .page-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 20;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.25rem;
-            pointer-events: none;
-        }
-        .header-actions { display: flex; gap: 0.75rem; pointer-events: auto; }
-        .back-link, .info-toggle, .theme-toggle, .info-close {
-            pointer-events: auto;
-            display: inline-flex;
-            align-items: center;
-            min-height: 2.8rem;
-            padding: 0 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 999px;
-            background: var(--surface-color);
-            backdrop-filter: blur(16px);
-            text-decoration: none;
-            color: inherit;
-            box-shadow: 0 14px 32px -24px var(--shadow-color);
-            cursor: pointer;
-        }
-        .workspace {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6rem 1rem 2rem;
-        }
-        .coming-shell {
-            width: min(960px, 100%);
-            min-height: 70vh;
-            display: grid;
-            place-items: center;
-            padding: 2rem;
-            border: 1px solid var(--border-color);
-            border-radius: 1.5rem;
-            background: var(--surface-color);
-            box-shadow: 0 24px 48px -34px var(--shadow-color);
-        }
-        .coming-copy { text-align: center; }
-        .eyebrow {
-            margin: 0 0 0.75rem;
-            color: var(--muted-text);
-            font-size: 0.76rem;
-            font-weight: 700;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-        }
-        h1 {
-            margin: 0;
-            font-size: clamp(3rem, 10vw, 6rem);
-            line-height: 0.95;
-        }
-        .subtitle {
-            margin: 1rem 0 0;
-            color: var(--muted-text);
-            font-size: 1rem;
-        }
-        .info-modal[hidden] { display: none; }
-        .info-modal { position: fixed; inset: 0; z-index: 30; }
-        .info-backdrop {
-            position: absolute;
-            inset: 0;
-            background: rgba(8, 14, 28, 0.58);
-            backdrop-filter: blur(10px);
-        }
-        .info-panel {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: min(720px, calc(100% - 1.5rem));
-            transform: translate(-50%, -50%);
-            padding: 1.25rem;
-            border: 1px solid var(--border-color);
-            border-radius: 1.5rem;
-            background: var(--surface-color);
-            box-shadow: 0 24px 64px -30px var(--shadow-color);
-        }
-        .info-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        .info-header h2 { margin: 0; font-size: 1.8rem; }
-        .info-content p {
-            margin: 0;
-            color: var(--muted-text);
-            line-height: 1.6;
-        }
-    </style>
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 <body>
     <header class="page-header">
@@ -144,13 +26,59 @@
     </header>
 
     <main class="workspace">
-        <section class="coming-shell">
-            <div class="coming-copy">
-                <p class="eyebrow">Regressions</p>
-                <h1>Comming Soon</h1>
-                <p class="subtitle">This page will compare regression models and show how data points turn into fitted curves.</p>
-            </div>
-        </section>
+        <div class="demo-shell">
+            <section class="main-panel">
+                <aside class="sidebar" aria-label="Regression settings">
+                    <div class="variables-panel compact-panel">
+                        <p class="label">Point Table</p>
+                        <div class="table-header">
+                            <div id="point-count" class="transform-value">0 / 10</div>
+                            <button id="clear-points" class="action-button" type="button">Clear</button>
+                        </div>
+                        <p class="support-copy">Click on the graph to place up to 10 sample points. Each point snaps to the nearest tenth.</p>
+                        <div class="point-table-wrap">
+                            <table class="point-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">x</th>
+                                        <th scope="col">y</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="point-table-body">
+                                    <tr>
+                                        <td>1</td>
+                                        <td class="point-table-empty">-</td>
+                                        <td class="point-table-empty">-</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </aside>
+
+                <section class="canvas-panel">
+                    <canvas id="regression-canvas" aria-label="Regression graph"></canvas>
+                </section>
+
+                <aside class="controls" aria-label="Regression results">
+                    <div class="control-block">
+                        <p class="label">Regression Type</p>
+                        <select id="regression-type" class="panel-select" aria-label="Select regression type">
+                            <option value="linear">Linear</option>
+                            <option value="quadratic">Quadratic</option>
+                            <option value="exponential">Exponential</option>
+                        </select>
+
+                        <div id="regression-variables" class="regression-variables" aria-live="polite">
+                            <p class="support-copy">Variables needed for this regression will appear here.</p>
+                        </div>
+                    </div>
+                </aside>
+            </section>
+        </div>
     </main>
 
     <div id="info-modal" class="info-modal" hidden>
@@ -158,54 +86,146 @@
         <section class="info-panel" role="dialog" aria-modal="true" aria-labelledby="info-title">
             <div class="info-header">
                 <div>
-                    <p class="eyebrow">Guide</p>
+                    <p class="label">Guide</p>
                     <h2 id="info-title">Regression Notes</h2>
                 </div>
                 <button id="info-close" class="info-close" type="button" aria-label="Close information panel">Close</button>
             </div>
             <div class="info-content">
-                <p>This project will briefly show how regression models fit patterns in data and help estimate trends.</p>
+                <section>
+                    <h3>Overview</h3>
+                    <p>
+                        This demo allows you to place a set of data points \((x_i, y_i)\) on a coordinate plane and compute a regression model that best fits the data. A regression model is a function that approximates the relationship between variables by minimizing the total error between the observed values and the predicted values.
+                    </p>
+                </section>
+
+                <section>
+                    <h3>Linear Regression (Detailed)</h3>
+                    <p>
+                        A linear regression model has the form:
+                    </p>
+                    <p>
+                        \( y = mx + b \)
+                    </p>
+                    <p>
+                        where \(m\) is the slope and \(b\) is the y-intercept. These values are chosen using the method of least squares, which minimizes the sum of squared residuals:
+                    </p>
+                    <p>
+                        \( \text{SS}_{res} = \sum (y_i - \hat{y}_i)^2 \)
+                    </p>
+
+                    <p>
+                        To compute \(m\) and \(b\), we first calculate the following summations from the data:
+                    </p>
+                    <p>
+                        \( n = \text{number of points} \)
+                    </p>
+                    <p>
+                        \( \sum x,\ \sum y,\ \sum x^2,\ \sum xy \)
+                    </p>
+
+                    <p>
+                        The slope is given by:
+                    </p>
+                    <p>
+                        \( m = \frac{n\sum xy - (\sum x)(\sum y)}{n\sum x^2 - (\sum x)^2} \)
+                    </p>
+
+                    <p>
+                        The y-intercept is:
+                    </p>
+                    <p>
+                        \( b = \frac{\sum y - m\sum x}{n} \)
+                    </p>
+
+                    <p>
+                        This produces the line of best fit, which minimizes the total squared vertical distance between the data points and the line.
+                    </p>
+                </section>
+
+                <section>
+                    <h3>Quadratic Regression</h3>
+                    <p>
+                        A quadratic regression model has the form:
+                    </p>
+                    <p>
+                        \( y = ax^2 + bx + c \)
+                    </p>
+
+                    <p>
+                        The coefficients \(a\), \(b\), and \(c\) are found by solving the following system of equations derived from minimizing squared error:
+                    </p>
+
+                    <p>
+                        \( \sum y = a\sum x^2 + b\sum x + cn \)
+                    </p>
+                    <p>
+                        \( \sum xy = a\sum x^3 + b\sum x^2 + c\sum x \)
+                    </p>
+                    <p>
+                        \( \sum x^2y = a\sum x^4 + b\sum x^3 + c\sum x^2 \)
+                    </p>
+
+                    <p>
+                        These equations are constructed from the dataset and solved simultaneously to determine the best-fit parabola.
+                    </p>
+                </section>
+
+                <section>
+                    <h3>Exponential Regression</h3>
+                    <p>
+                        An exponential regression model has the form:
+                    </p>
+                    <p>
+                        \( y = ae^{bx} \)
+                    </p>
+
+                    <p>
+                        This model is transformed into a linear form by taking the natural logarithm of both sides:
+                    </p>
+                    <p>
+                        \( \ln(y) = \ln(a) + bx \)
+                    </p>
+
+                    <p>
+                        Let \(Y = \ln(y)\). Then:
+                    </p>
+                    <p>
+                        \( Y = bx + \ln(a) \)
+                    </p>
+
+                    <p>
+                        This allows us to apply linear regression to the transformed data \((x, \ln(y))\) to compute \(b\) and \(\ln(a)\), and then recover:
+                    </p>
+                    <p>
+                        \( a = e^{\ln(a)} \)
+                    </p>
+                </section>
+
+                <section>
+                    <h3>Goodness of Fit</h3>
+                    <p>
+                        The quality of a regression is measured using the coefficient of determination:
+                    </p>
+                    <p>
+                        \( R^2 = 1 - \frac{\sum (y_i - \hat{y}_i)^2}{\sum (y_i - \bar{y})^2} \)
+                    </p>
+
+                    <p>
+                        where \( \bar{y} \) is the mean of the observed values. An \(R^2\) value closer to 1 indicates a better fit.
+                    </p>
+                </section>
+
+                <section>
+                    <h3>Usage Notes</h3>
+                    <p>
+                        Click on the graph to place up to 10 data points. Points snap to the nearest tenth. Exponential regression requires all \(y\)-values to be positive due to the logarithmic transformation.
+                    </p>
+                </section>
             </div>
         </section>
     </div>
 
-    <script>
-        const infoToggle = document.getElementById("info-toggle");
-        const infoClose = document.getElementById("info-close");
-        const infoModal = document.getElementById("info-modal");
-        const infoBackdrop = document.getElementById("info-backdrop");
-        const themeToggle = document.getElementById("theme-toggle");
-
-        function syncThemeUi() {
-            const isLightMode = document.body.classList.contains("light-mode");
-            themeToggle.textContent = isLightMode ? "Dark" : "Light";
-            themeToggle.setAttribute("aria-label", isLightMode ? "Switch to dark mode" : "Switch to light mode");
-        }
-
-        infoToggle.addEventListener("click", function () {
-            infoModal.hidden = false;
-            document.body.classList.add("modal-open");
-        });
-
-        function closeInfoModal() {
-            infoModal.hidden = true;
-            document.body.classList.remove("modal-open");
-        }
-
-        infoClose.addEventListener("click", closeInfoModal);
-        infoBackdrop.addEventListener("click", closeInfoModal);
-        themeToggle.addEventListener("click", function () {
-            document.body.classList.toggle("light-mode");
-            syncThemeUi();
-        });
-
-        window.addEventListener("keydown", function (event) {
-            if (event.key === "Escape" && !infoModal.hidden) {
-                closeInfoModal();
-            }
-        });
-
-        syncThemeUi();
-    </script>
+    <script src="Regressions.js"></script>
 </body>
 </html>
