@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encryption</title>
+    <link rel="stylesheet" href="../palette.css">
+    <link rel="stylesheet" href="Encryption.css">
+</head>
+<body>
+    <header class="page-header">
+        <a class="back-link" href="../index.html" aria-label="Back to project list">&larr; Back</a>
+        <div class="header-actions">
+            <button id="info-toggle" class="info-toggle" type="button" aria-label="Open Encryption information">Info</button>
+            <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to light mode">Light</button>
+        </div>
+    </header>
+
+    <main class="workspace">
+        <section class="encryption-shell">
+            <aside class="controls-panel" aria-label="Encryption variables">
+                <div class="panel-header">
+                    <p class="eyebrow">Variables</p>
+                    <h1>Encryption</h1>
+                    <p class="panel-copy">Choose a cipher, tune its variables, and watch the encrypted text and crack-time estimates update.</p>
+                </div>
+
+                <div class="control-group">
+                    <label class="label" for="algorithm">Cipher</label>
+                    <select id="algorithm" class="panel-input">
+                        <option value="caesar">Caesar Cipher</option>
+                        <option value="vigenere">Vigenere Cipher</option>
+                        <option value="rsa">RSA</option>
+                    </select>
+                </div>
+
+                <div id="cipher-variable-slot"></div>
+                <div id="shared-options-slot"></div>
+
+                <div class="control-group">
+                    <p class="label">Live Notes</p>
+                    <div id="live-notes" class="note-card" aria-live="polite"></div>
+                </div>
+            </aside>
+
+            <section class="editor-panel" aria-label="Encryption editor">
+                <div class="editor-stack">
+                    <section class="text-card">
+                        <div class="card-header">
+                            <p class="eyebrow">Input</p>
+                            <h2>Plain Text</h2>
+                        </div>
+                        <textarea id="plain-text" class="text-box" spellcheck="false">The Quick Brown Fox Jumps Over The Lazy Dog</textarea>
+                    </section>
+
+                    <section class="text-card">
+                        <div class="card-header">
+                            <p class="eyebrow">Output</p>
+                            <h2>Encrypted</h2>
+                        </div>
+                        <textarea id="encrypted-text" class="text-box output-box" readonly></textarea>
+                    </section>
+                </div>
+            </section>
+
+            <aside class="analysis-panel" aria-label="Encryption analysis">
+                <div class="panel-header">
+                    <p class="eyebrow">Analysis</p>
+                    <h2>Break Estimates</h2>
+                    <p class="panel-copy">These are rough estimates based on brute-force search</p>
+                </div>
+
+                <div class="analysis-grid">
+                    <article class="metric-card">
+                        <p class="label">Standard Computer</p>
+                        <p id="standard-time" class="metric-value">Instant</p>
+                    </article>
+                    <article class="metric-card">
+                        <p class="label">Supercomputer</p>
+                        <p id="super-time" class="metric-value">Instant</p>
+                    </article>
+                </div>
+
+                <div class="insight-block">
+                    <p class="label">Public Key</p>
+                    <p id="public-key-copy" class="insight-copy"></p>
+                </div>
+
+                <div class="insight-block">
+                    <p class="label">Private Key</p>
+                    <p id="private-key-copy" class="insight-copy"></p>
+                </div>
+
+                <div class="insight-block">
+                    <p class="label">Main Weakness</p>
+                    <p id="weakness-copy" class="insight-copy"></p>
+                </div>
+
+                <div class="insight-block">
+                    <p class="label">What To Notice</p>
+                    <p id="observation-copy" class="insight-copy"></p>
+                </div>
+            </aside>
+        </section>
+    </main>
+
+    <template id="shift-group-template">
+        <div id="shift-group" class="control-group">
+            <div class="split-label">
+                <label class="label" for="shift">Shift</label>
+                <span id="shift-value" class="value-chip">B</span>
+            </div>
+            <input id="shift" class="panel-range" type="range" min="1" max="25" value="1">
+        </div>
+    </template>
+
+    <template id="keyword-group-template">
+        <div id="keyword-group" class="control-group">
+            <label class="label" for="keyword">Keyword</label>
+            <input id="keyword" class="panel-input" type="text" value="Keyword" maxlength="25" spellcheck="false">
+        </div>
+    </template>
+
+    <template id="rsa-group-template">
+        <div id="rsa-group" class="rsa-group">
+            <div class="control-group">
+                <div class="split-label">
+                    <label class="label" for="prime-p-index">Prime 1</label>
+                    <span id="prime-p-value" class="value-chip">31</span>
+                </div>
+                <input id="prime-p-index" class="panel-range" type="range" min="1" max="1" value="1">
+            </div>
+            <div class="control-group">
+                <div class="split-label">
+                    <label class="label" for="prime-q-index">Prime 2</label>
+                    <span id="prime-q-value" class="value-chip">37</span>
+                </div>
+                <input id="prime-q-index" class="panel-range" type="range" min="1" max="1" value="1">
+            </div>
+        </div>
+    </template>
+
+    <template id="classical-options-template">
+        <div id="classical-options-group" class="classical-options-group">
+            <div class="control-group">
+                <label class="label" for="letter-case">Letter Case</label>
+                <select id="letter-case" class="panel-input">
+                    <option value="preserve">Preserve original</option>
+                    <option value="upper">Uppercase output</option>
+                </select>
+            </div>
+
+            <label class="toggle-row" for="preserve-spacing">
+                <span>
+                    <span class="label">Spacing</span>
+                    <span class="toggle-copy">Keep spaces and punctuation in place</span>
+                </span>
+                <input id="preserve-spacing" type="checkbox" checked>
+            </label>
+        </div>
+    </template>
+
+    <div id="info-modal" class="info-modal" hidden>
+        <div id="info-backdrop" class="info-backdrop"></div>
+        <section class="info-panel" role="dialog" aria-modal="true" aria-labelledby="info-title">
+            <div class="info-header">
+                <div>
+                    <p class="label">Guide</p>
+                    <h2 id="info-title">Encryption Notes</h2>
+                </div>
+                <button id="info-close" class="info-close" type="button" aria-label="Close information panel">Close</button>
+            </div>
+            <div class="info-content">
+                <section>
+                    <h3>Layout</h3>
+                    <p>
+                        The left panel controls the active cipher variables, the center panel shows plaintext and encrypted output, and the right panel shows break estimates, key information, and explanatory notes.
+                    </p>
+                    <p>
+                        This project is designed to compare simple classical ciphers against an asymmetric system. It emphasizes how the calculations work, not just what the final ciphertext looks like.
+                    </p>
+                </section>
+                <section>
+                    <h3>Caesar Cipher</h3>
+                    <p>
+                        Caesar shifts every alphabetic character by the same fixed amount. The shift chip displays the key letter where A means shift 0, B means shift 1, C means shift 2, and so on.
+                    </p>
+                    <p>
+                        Calculation steps:
+                    </p>
+                    <p>
+                        1. Convert each letter to an index from 0 through 25.
+                    </p>
+                    <p>
+                        2. Add the selected shift.
+                    </p>
+                    <p>
+                        3. Wrap around the alphabet with modulo 26.
+                    </p>
+                    <p>
+                        Formula: encrypted_index = (plain_index + shift) mod 26.
+                    </p>
+                    <p>
+                        Example with shift 3: A becomes D, B becomes E, X becomes A, and Z becomes C.
+                    </p>
+                    <p>
+                        Because there are only 25 meaningful shifts, brute force is essentially instant.
+                    </p>
+                </section>
+                <section>
+                    <h3>Vigenere Cipher</h3>
+                    <p>
+                        Vigenere uses a repeating keyword so the shift changes from character to character.
+                    </p>
+                    <p>
+                        Calculation steps:
+                    </p>
+                    <p>
+                        1. Repeat the keyword across the plaintext.
+                    </p>
+                    <p>
+                        2. Convert each keyword letter into a shift value from 0 through 25.
+                    </p>
+                    <p>
+                        3. Add that shift to the matching plaintext letter.
+                    </p>
+                    <p>
+                        4. Wrap around the alphabet with modulo 26.
+                    </p>
+                    <p>
+                        Formula: encrypted_index = (plain_index + keyword_index) mod 26.
+                    </p>
+                    <p>
+                        Example with keyword MATH: M gives shift 12, A gives shift 0, T gives shift 19, and H gives shift 7, then the pattern repeats.
+                    </p>
+                    <p>
+                        Vigenere is stronger than Caesar, but repeated-key structure still leaks patterns that can be analyzed.
+                    </p>
+                </section>
+                <section>
+                    <h3>RSA</h3>
+                    <p>
+                        RSA is an asymmetric encryption system built from two prime numbers. This demo lets you choose those ramdom primes between 1,000,000 and 1,000,000,000 and then builds the public key and private key from the selected pair.
+                    </p>
+                    <p>
+                        RSA, or asymmetric encryption, is widely used today for secure communication, certificate systems, digital signatures, and key exchange.
+                    </p>
+                    <p>
+                        To truly be effective, RSA must use very large prime numbers. That is what makes factoring the modulus infeasible even for supercomputers. This demo intentionally uses much smaller values so the calculations stay readable.
+                    </p>
+                    <p>
+                        RSA calculation steps:
+                    </p>
+                    <p>
+                        1. Choose two different primes p and q.
+                    </p>
+                    <p>
+                        2. Compute n = p x q.
+                    </p>
+                    <p>
+                        3. Compute phi(n) = (p - 1) x (q - 1).
+                    </p>
+                    <p>
+                        4. Choose a public exponent e such that gcd(e, phi(n)) = 1.
+                    </p>
+                    <p>
+                        5. Compute the private exponent d so that (d x e) mod phi(n) = 1.
+                    </p>
+                    <p>
+                        6. The public key is (e, n) and the private key is (d, n).
+                    </p>
+                    <p>
+                        Encryption formula: ciphertext = plaintext^e mod n.
+                    </p>
+                    <p>
+                        Decryption formula: plaintext = ciphertext^d mod n.
+                    </p>
+                    <p>
+                        In this demo, each character code is encrypted separately and shown as a numeric block so you can see the modular arithmetic more clearly.
+                    </p>
+                </section>
+                <section>
+                    <h3>What The Demo Calculates</h3>
+                    <p>
+                        Caesar: one constant shift applied to every letter.
+                    </p>
+                    <p>
+                        Vigenere: a repeating sequence of keyword-derived shifts.
+                    </p>
+                    <p>
+                        RSA: prime selection, modulus n, Euler totient phi(n), a valid public exponent e, a matching private exponent d, and modular exponentiation for encryption.
+                    </p>
+                    <p>
+                        That means the project is showing the actual transformation process rather than only showing a label and a final output string.
+                    </p>
+                </section>
+                <section>
+                    <h3>Break Times</h3>
+                    <p>
+                        The estimates on the right are simplified intuition tools. They are not formal cryptographic guarantees.
+                    </p>
+                    <p>
+                        For Caesar and Vigenere, the estimate is roughly tied to the size of the key search space. For RSA in this demo, the estimate is only a very rough stand-in based on the modulus size and should not be treated as a real-world attack benchmark.
+                    </p>
+                    <p>
+                        Real security depends on algorithm design, key size, implementation quality, padding schemes, and side-channel resistance, not just on one headline number.
+                    </p>
+                </section>
+            </div>
+        </section>
+    </div>
+
+    <script src="Encryption.js"></script>
+</body>
+</html>

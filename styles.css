@@ -173,7 +173,7 @@ a {
 
 .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
 }
 
@@ -255,16 +255,8 @@ a {
     --project-accent: var(--apollo-5);
 }
 
-.project-fourier {
-    --project-accent: var(--apollo-11);
-}
-
-.project-geodesic {
+.project-encryption {
     --project-accent: var(--apollo-17);
-}
-
-.project-noise {
-    --project-accent: var(--apollo-23);
 }
 
 .project-regressions {
@@ -293,5 +285,13 @@ a {
 
     .hero h1 {
         font-size: clamp(2.6rem, 15vw, 4rem);
+    }
+
+    .project-card {
+        min-height: 0;
+    }
+
+    .project-grid {
+        grid-template-columns: 1fr;
     }
 }

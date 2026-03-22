@@ -1,6 +1,6 @@
-# Advanced Math Showcase
+# Math Visualizations
 
-A small browser-based collection of interactive math visualizations and in-progress demos.
+A small browser-based collection of interactive math visualizations.
 
 ## Included Projects
 
@@ -10,11 +10,8 @@ A small browser-based collection of interactive math visualizations and in-progr
 - `Riemann Sum`
   Build functions, apply transformations, approximate area with left/right/midpoint Riemann sums, and view the rectangles on the graph.
 
-- `Fourier Series`
-  Placeholder page with shared UI shell. Marked as `Comming Soon`.
-
-- `Noise Topography`
-  Placeholder page with shared UI shell. Marked as `Comming Soon`.
+- `Encryption`
+  Placeholder page for an upcoming encryption visualization.
 
 - `Regressions`
   Placeholder page with shared UI shell. Marked as `Comming Soon`.
@@ -22,17 +19,16 @@ A small browser-based collection of interactive math visualizations and in-progr
 ## Project Structure
 
 ```text
-AdvancedMath/
-├─ index.html
-├─ styles.css
-├─ palette.css
-├─ main.js
-├─ public/
-├─ BezierCurves/
-├─ ReimannSum/
-├─ FourierSeriers/
-├─ NoiseTopography/
-└─ Regressions/
+MathVisualization/
+|-- index.html
+|-- styles.css
+|-- palette.css
+|-- main.js
+|-- Public/
+|-- BezierCurves/
+|-- Encryption/
+|-- ReimannSum/
+`-- Regressions/
 ```
 
 ## Current Focus
@@ -69,5 +65,5 @@ You can also open `index.html` directly in a browser, but using a local server i
 ## Notes
 
 - The project intentionally uses simple vanilla web tech.
-- Some pages are scaffolds for future work and currently show a shared `Comming Soon` screen.
-- The folder names `ReimannSum` and `FourierSeriers` are kept as-is to match the current project structure.
+- `Regressions` is still a scaffold and currently shows a shared `Comming Soon` screen.
+- The folder name `ReimannSum` is kept as-is to match the current project structure.

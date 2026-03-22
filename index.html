@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Math Showcase</title>
+    <title>Math Visualizations</title>
     <link rel="stylesheet" href="palette.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header class="topbar">
         <nav class="site-nav" aria-label="Project navigation">
-            <a class="brand" href="#top">Advanced Math</a>
+            <a class="brand" href="#top">Math Visualizations</a>
             <ul class="nav-links">
                 <li><a href="#bezier">Bezier</a></li>
-                <li><a href="#geodesic">Geodesic</a></li>
-                <li><a href="#fourier">Fourier</a></li>
-                <li><a href="#noise">Noise</a></li>
+                <li><a href="#encryption">Encryption</a></li>
                 <li><a href="#regressions">Regressions</a></li>
                 <li><a href="#riemann">Riemann</a></li>
             </ul>
@@ -25,11 +23,11 @@
     <main id="top" class="page-shell">
         <section class="hero">
             <p class="eyebrow">Interactive visual math</p>
-            <h1>Math Visualization Showcase</h1>
+            <h1>Math Visualizations</h1>
             <p class="hero-copy">A minimalist launchpad for interactive math experiments. Each project explores a different idea with its own visual accent so the collection feels connected without blending together.</p>
         </section>
         <section class="intro">
-            <p>Browse the projects below to jump into curves, signal decomposition, terrain generation, statistical modeling, and area approximation. Everything stays left-aligned and easy to scan, with the visuals carrying the personality.</p>
+            <p>Browse the projects below to jump into curves, statistical modeling, and area approximation. Everything stays left-aligned and easy to scan, with the visuals carrying the personality.</p>
         </section>
         <section id="projects" class="project-grid" aria-label="Math projects">
             <article class="project-card project-bezier" id="bezier">
@@ -50,8 +48,17 @@
                 </figure>
                 <a href="ReimannSum/Reimann.html">Open project</a>
             </article>
-            <article class="project-card project-regressions" id="regressions">
+            <article class="project-card project-encryption" id="encryption">
                 <p class="project-label">03</p>
+                <h2>Encryption</h2>
+                <p>Explore cipher ideas and encoding workflows through an interactive placeholder ready for the next buildout.</p>
+                <figure class="project-media">
+                    <img src="Public/Enrcyption.png" alt="Screenshot of the encryption visualization">
+                </figure>
+                <a href="Encryption/Encryption.html">Open project</a>
+            </article>
+            <article class="project-card project-regressions" id="regressions">
+                <p class="project-label">04</p>
                 <h2>Regressions</h2>
                 <p>Compare fitted models and see how data trends turn into predictive curves.</p>
                 <figure class="project-media">
@@ -59,14 +66,6 @@
                 </figure>
                 <a href="Regressions/Regressions.html">Open project</a>
             </article>
-            
-            <article class="project-card project-noise" id="noise">
-                <p class="project-label">04</p>
-                <h2>Noise Topography</h2>
-                <p>Generate terrain-like forms from smooth pseudo-random noise fields.</p>
-                <a href="NoiseTopography/Noise.html">Open project</a>
-            </article>
-            
         </section>
     </main>
     <script src="main.js"></script>
