@@ -3,71 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Visualizations</title>
+    <title>Computational Visualizations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="palette.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header class="topbar">
-        <nav class="site-nav" aria-label="Project navigation">
-            <a class="brand" href="#top">Math Visualizations</a>
-            <ul class="nav-links">
-                <li><a href="#bezier">Bezier</a></li>
-                <li><a href="#encryption">Encryption</a></li>
-                <li><a href="#regressions">Regressions</a></li>
-                <li><a href="#riemann">Riemann</a></li>
-            </ul>
-        </nav>
-        <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light mode">Light</button>
-    </header>
-    <main id="top" class="page-shell">
-        <section class="hero">
-            <p class="eyebrow">Interactive visual math</p>
-            <h1>Math Visualizations</h1>
-            <p class="hero-copy">A minimalist launchpad for interactive math experiments. Each project explores a different idea with its own visual accent so the collection feels connected without blending together.</p>
+    <nav class="site-nav" aria-label="Site navigation">
+        <div class="nav-inner">
+            
+            <div class="nav-links">
+                <a href="#projects">Modules</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="page">
+        <section class="hero-stage" aria-label="Animated graph introduction">
+            <div class="hero-sticky">
+                <div class="graph-backdrop" id="graph-backdrop">
+                    <svg id="graph-svg" class="graph-svg" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
+                        <defs>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="8" result="blur"></feGaussianBlur>
+                                <feMerge>
+                                    <feMergeNode in="blur"></feMergeNode>
+                                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                                </feMerge>
+                            </filter>
+                            <linearGradient id="scan-gradient" x1="0%" x2="100%" y1="0%" y2="0%">
+                                <stop offset="0%" stop-color="rgba(115,190,211,0)"></stop>
+                                <stop offset="50%" stop-color="rgba(115,190,211,0.07)"></stop>
+                                <stop offset="100%" stop-color="rgba(115,190,211,0)"></stop>
+                            </linearGradient>
+                            <linearGradient id="hero-fade" x1="0%" x2="0%" y1="0%" y2="100%">
+                                <stop offset="0%" stop-color="rgba(23,32,56,0)"></stop>
+                                <stop offset="100%" stop-color="rgba(23,32,56,0.65)"></stop>
+                            </linearGradient>
+                        </defs>
+
+                        <g id="graph-grid"></g>
+                        <g id="graph-axes"></g>
+                        <g id="graph-ticks"></g>
+                        <g id="graph-labels"></g>
+                        <g id="graph-ornaments"></g>
+
+                        <path id="graph-fill" class="graph-fill"></path>
+                        <path id="graph-line-glow" class="graph-line-glow"></path>
+                        <path id="graph-line" class="graph-line"></path>
+                        <rect x="0" y="0" width="1600" height="900" fill="url(#hero-fade)" pointer-events="none"></rect>
+                    </svg>
+                </div>
+
+                <div class="hero-overlay">
+                    <div class="hero-content">
+                        <p class="eyebrow">
+                            <span class="eyebrow-line"></span>
+                            Interactive Mathematics
+                        </p>
+                        <h1>Computational<br><em>Visualizations</em></h1>
+                        <p class="hero-sub">Explore technical systems through direct manipulation and real-time feedback.</p>
+                        <a href="#projects" class="hero-cta">
+                            <span>View Modules</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                                <path d="M8 3L8 13M8 13L3 8M8 13L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </section>
-        <section class="intro">
-            <p>Browse the projects below to jump into curves, statistical modeling, and area approximation. Everything stays left-aligned and easy to scan, with the visuals carrying the personality.</p>
-        </section>
-        <section id="projects" class="project-grid" aria-label="Math projects">
-            <article class="project-card project-bezier" id="bezier">
-                <p class="project-label">01</p>
-                <h2>Bezier Curves</h2>
-                <p>Manipulate control points and watch smooth parametric curves respond in real time.</p>
-                <figure class="project-media">
-                    <img src="Public/Bezier.png" alt="Screenshot of the Bezier curve whiteboard visualization">
-                </figure>
-                <a href="BezierCurves/Bezier.html">Open project</a>
-            </article>
-            <article class="project-card project-riemann" id="riemann">
-                <p class="project-label">02</p>
-                <h2>Riemann Sum</h2>
-                <p>Approximate area under a curve and see convergence as partitions increase.</p>
-                <figure class="project-media">
-                    <img src="Public/ReimannSum.png" alt="Screenshot of the Riemann sum graph visualization">
-                </figure>
-                <a href="ReimannSum/Reimann.html">Open project</a>
-            </article>
-            <article class="project-card project-encryption" id="encryption">
-                <p class="project-label">03</p>
-                <h2>Encryption</h2>
-                <p>Explore cipher ideas and encoding workflows through an interactive placeholder ready for the next buildout.</p>
-                <figure class="project-media">
-                    <img src="Public/Enrcyption.png" alt="Screenshot of the encryption visualization">
-                </figure>
-                <a href="Encryption/Encryption.html">Open project</a>
-            </article>
-            <article class="project-card project-regressions" id="regressions">
-                <p class="project-label">04</p>
-                <h2>Regressions</h2>
-                <p>Compare fitted models and see how data trends turn into predictive curves.</p>
-                <figure class="project-media">
-                    <img src="Public/Regression.png" alt="Screenshot of the regression graph visualization">
-                </figure>
-                <a href="Regressions/Regressions.html">Open project</a>
-            </article>
+
+        <section class="content-shell">
+
+            <section class="projects-section" id="projects" aria-labelledby="projects-title">
+                <div class="section-heading">
+                    <p class="eyebrow">
+                        <span class="eyebrow-line"></span>
+                        Modules
+                    </p>
+                    <h2 id="projects-title">Interactive explorations</h2>
+                    <p>
+                        Each module focuses on a different kind of technical behavior —
+                        from geometry and approximation to computation and data modeling.
+                    </p>
+                </div>
+
+                <div class="project-grid">
+                    <article class="project-card project-bezier" id="bezier">
+                        <div class="card-shine"></div>
+                        <div class="card-number">01</div>
+                        <p class="project-label">Geometry</p>
+                        <h3>Bezier Curves</h3>
+                        <p>
+                            Manipulate control points and observe how parametric curves respond.
+                            Highlights continuity, interpolation, and geometric control.
+                        </p>
+                        <figure class="project-media">
+                            <img src="Public/Bezier.png" alt="Screenshot of the Bezier curve visualization">
+                            <div class="media-overlay"></div>
+                        </figure>
+                        <a href="BezierCurves/Bezier.html" class="card-link">
+                            Open module
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </article>
+
+                    <article class="project-card project-riemann" id="riemann">
+                        <div class="card-shine"></div>
+                        <div class="card-number">02</div>
+                        <p class="project-label">Calculus</p>
+                        <h3>Riemann Sums</h3>
+                        <p>
+                            Approximate area under a curve while observing how partition count
+                            and method affect the result. Makes convergence visible.
+                        </p>
+                        <figure class="project-media">
+                            <img src="Public/ReimannSum.png" alt="Screenshot of the Riemann sum visualization">
+                            <div class="media-overlay"></div>
+                        </figure>
+                        <a href="ReimannSum/Reimann.html" class="card-link">
+                            Open module
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </article>
+
+                    <article class="project-card project-encryption" id="encryption">
+                        <div class="card-shine"></div>
+                        <div class="card-number">03</div>
+                        <p class="project-label">Computation</p>
+                        <h3>Encryption</h3>
+                        <p>
+                            Explore how information is transformed, encoded, and structured
+                            through interactive computational logic and visual flow.
+                        </p>
+                        <figure class="project-media">
+                            <img src="Public/Enrcyption.png" alt="Screenshot of the encryption visualization">
+                            <div class="media-overlay"></div>
+                        </figure>
+                        <a href="Encryption/Encryption.html" class="card-link">
+                            Open module
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </article>
+
+                    <article class="project-card project-gears" id="gears">
+                        <div class="card-shine"></div>
+                        <div class="card-number">04</div>
+                        <p class="project-label">Mechanics</p>
+                        <h3>Gear Systems</h3>
+                        <p>
+                            Place gears, motors, chains, and weights in a mechanical sandbox
+                            that is ready to grow into a richer drivetrain visualization.
+                        </p>
+                        <figure class="project-media">
+                            <div class="project-placeholder" aria-hidden="true">
+                                <span class="placeholder-node placeholder-gear"></span>
+                                <span class="placeholder-node placeholder-motor"></span>
+                                <span class="placeholder-chain"></span>
+                                <span class="placeholder-node placeholder-weight"></span>
+                                <div class="media-overlay"></div>
+                            </div>
+                        </figure>
+                        <a href="GearSystems/GearSystems.html" class="card-link">
+                            Open module
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </article>
+
+                    <article class="project-card project-regressions" id="regressions">
+                        <div class="card-shine"></div>
+                        <div class="card-number">05</div>
+                        <p class="project-label">Data</p>
+                        <h3>Regressions</h3>
+                        <p>
+                            Compare fitted models and see how data is translated into curves.
+                            Focuses on trend behavior, model shape, and prediction.
+                        </p>
+                        <figure class="project-media">
+                            <img src="Public/Regression.png" alt="Screenshot of the regression visualization">
+                            <div class="media-overlay"></div>
+                        </figure>
+                        <a href="Regressions/Regressions.html" class="card-link">
+                            Open module
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                                <path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </article>
+                </div>
+            </section>
+
+            <footer class="site-footer">
+                <div class="footer-inner">
+                    <p>Interactive systems for technical understanding.</p>
+                </div>
+            </footer>
         </section>
     </main>
+
     <script src="main.js"></script>
 </body>
 </html>

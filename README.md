@@ -1,6 +1,23 @@
-# Math Visualizations
+# Technical Visualizations
 
-A small browser-based collection of interactive math visualizations.
+A browser-based collection of interactive technical visualizations.
+
+## Overview
+
+Technical Visualization is a collection of interactive modules designed to make complex concepts intuitive through visual and hands-on exploration.
+
+Each project focuses on a specific idea, ranging from mathematics and geometry to physics and computational systems, and turns it into a dynamic, explorable experience. Instead of relying on static formulas or explanations, users can directly interact with the underlying mechanics and observe how changes affect the system in real time.
+
+## What Is Technical Visualization?
+
+Technical Visualization is an ongoing project that brings together concepts from multiple technical fields into a single interactive environment. It is designed to bridge the gap between theory and implementation by emphasizing:
+
+- real-time interaction
+- visual intuition
+- system-level understanding
+- modular, expandable design
+
+Each module acts as both a demonstration and a tool, allowing users to experiment, adjust parameters, and gain a deeper understanding of how the system behaves.
 
 ## Included Projects
 
@@ -13,13 +30,16 @@ A small browser-based collection of interactive math visualizations.
 - `Encryption`
   Placeholder page for an upcoming encryption visualization.
 
+- `Gear Systems`
+  Boilerplate mechanical workspace with tools for placing gears, motors, chains, and weights.
+
 - `Regressions`
   Placeholder page with shared UI shell. Marked as `Comming Soon`.
 
 ## Project Structure
 
 ```text
-MathVisualization/
+TechnicalVisualizations/
 |-- index.html
 |-- styles.css
 |-- palette.css
@@ -27,6 +47,7 @@ MathVisualization/
 |-- Public/
 |-- BezierCurves/
 |-- Encryption/
+|-- GearSystems/
 |-- ReimannSum/
 `-- Regressions/
 ```
