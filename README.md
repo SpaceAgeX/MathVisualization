@@ -30,9 +30,6 @@ Each module acts as both a demonstration and a tool, allowing users to experimen
 - `Encryption`
   Placeholder page for an upcoming encryption visualization.
 
-- `Gear Systems`
-  Boilerplate mechanical workspace with tools for placing gears, motors, chains, and weights.
-
 - `Regressions`
   Placeholder page with shared UI shell. Marked as `Comming Soon`.
 
@@ -47,7 +44,6 @@ TechnicalVisualizations/
 |-- Public/
 |-- BezierCurves/
 |-- Encryption/
-|-- GearSystems/
 |-- ReimannSum/
 `-- Regressions/
 ```

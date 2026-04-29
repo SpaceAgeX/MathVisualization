@@ -527,68 +527,6 @@ img {
     display: block;
 }
 
-.project-placeholder {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
-    background:
-        radial-gradient(circle at 28% 46%, color-mix(in srgb, var(--project-accent) 26%, transparent), transparent 24%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
-}
-
-.placeholder-node,
-.placeholder-chain {
-    position: absolute;
-    display: block;
-}
-
-.placeholder-gear,
-.placeholder-motor {
-    top: 34%;
-    width: 3.9rem;
-    height: 3.9rem;
-    border: 3px solid var(--project-accent);
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--project-accent) 18%, transparent);
-}
-
-.placeholder-gear {
-    left: 16%;
-}
-
-.placeholder-motor {
-    left: 46%;
-}
-
-.placeholder-chain {
-    top: 49%;
-    left: 30%;
-    width: 24%;
-    border-top: 3px dashed color-mix(in srgb, var(--project-accent) 80%, white 8%);
-}
-
-.placeholder-weight {
-    left: 76%;
-    top: 34%;
-    width: 2.2rem;
-    height: 4.2rem;
-    border: 3px solid var(--project-accent);
-    border-radius: 0.7rem;
-    background: color-mix(in srgb, var(--project-accent) 20%, transparent);
-}
-
-.placeholder-weight::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: 100%;
-    width: 3px;
-    height: 1.5rem;
-    transform: translateX(-50%);
-    background: color-mix(in srgb, var(--project-accent) 80%, white 8%);
-}
-
 .media-overlay {
     position: absolute;
     inset: 0;
@@ -623,7 +561,6 @@ img {
 
 .project-bezier     { --project-accent: var(--apollo-5); }
 .project-encryption { --project-accent: var(--apollo-17); }
-.project-gears      { --project-accent: var(--apollo-11); }
 .project-regressions{ --project-accent: var(--apollo-38); }
 .project-riemann    { --project-accent: var(--apollo-35); }
 
